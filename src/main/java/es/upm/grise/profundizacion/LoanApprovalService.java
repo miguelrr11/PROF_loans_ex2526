@@ -19,37 +19,51 @@ public class LoanApprovalService {
             int amountRequested,
             int termMonths
     ) {
+        // Nodo 1
         validate(applicant, amountRequested, termMonths);
 
+        // Nodo 2
         int score = applicant.creditScore();
         boolean hasDefaults = applicant.hasRecentDefaults();
         int income = applicant.monthlyIncome();
 
         Decision decision;
 
+        // Nodo 3
         if (score < 500) {
+            // Nodo 4: decision = REJECTED
             decision = Decision.REJECTED;
+        // Nodo 5
         } else if (score < 650) {
+            // Nodo 6
             if (income >= 2500 && !hasDefaults) {
+                // Nodo 7
                 decision = Decision.MANUAL_REVIEW;
             } else {
+                // Nodo 8
                 decision = Decision.REJECTED;
             }
         } else {
+            // Nodo 9
             if (amountRequested <= income * 8) {
+                // Nodo 10
                 decision = Decision.APPROVED;
             } else {
+                // Nodo 11
                 decision = Decision.MANUAL_REVIEW;
             }
         }
 
+        // Nodo 12
         if (decision == Decision.MANUAL_REVIEW
                 && applicant.isVip()
                 && score >= 600
                 && !hasDefaults) {
+            // Nodo 13
             decision = Decision.APPROVED;
         }
 
+        // Nodo 14
         return decision;
     }
 
